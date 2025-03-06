@@ -40,11 +40,10 @@ namespace BlogApp.Controllers
             {
                 Name = model.Name,
                 Email = model.Email,
-                RoleId = model.RoleId,
-                Password = model.Password
+                RoleId = model.RoleId
             };
 
-            //user.SetPassword(model.Password); // Hash password
+            user.SetPassword(model.Password); 
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -66,19 +65,19 @@ namespace BlogApp.Controllers
                 return View(model);
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
-
-            if (user == null || !user.VerifyPassword(model.Password))
+            if (user == null || !user.VerifyPassword(model.Password)) // 🔹 Verify password
             {
-                ModelState.AddModelError("", "Invalid email or password!");
+                ModelState.AddModelError("", "Invalid email or password");
                 return View(model);
             }
 
-            // Store user data in session
-            HttpContext.Session.SetInt32("UserId", user.Id);
+            // Store user session (Example)
+            HttpContext.Session.SetString("UserId", user.Id.ToString());
             HttpContext.Session.SetString("UserName", user.Name);
 
-            return RedirectToAction("Index", "Home"); // Redirect to Home page
+            return RedirectToAction("Index", "Home"); // Redirect to home after login
         }
+
 
         // 🔹 Logout
         public IActionResult Logout()

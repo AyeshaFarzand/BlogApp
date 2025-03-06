@@ -1,5 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
+using BCrypt.Net;
+
 
 namespace BlogApp.Models
 {
@@ -26,15 +30,18 @@ namespace BlogApp.Models
         public int RoleId { get; set; }
 
         public UserRole Role { get; set; }
-
-        internal void SetPassword(object password)
+       
+        // Method to hash password
+        public void SetPassword(string password)
         {
-            throw new NotImplementedException();
+            string PasswordHash = BCrypt.Net.BCrypt.HashPassword(password);
+            Password = PasswordHash;
         }
 
-        internal bool VerifyPassword(object password)
+        // Method to verify password
+        public bool VerifyPassword(string password)
         {
-            return true;
+            return BCrypt.Net.BCrypt.Verify(password, Password);
         }
     }
 }
