@@ -1,35 +1,33 @@
 ﻿using BlogApp.Models;
+using BlogApp.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-using BlogApp.Data;
 
 namespace BlogApp.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly Data.AppDbContext _context;
+        private readonly IUserRepository _userRepository;
 
-        public AuthController(AppDbContext context)
+        public AuthController(IUserRepository userRepository)
         {
-            _context = context;
+            _userRepository = userRepository;
         }
 
-        // 🔹 Show Register Form
+        // ✅ Show Registration Form
         public IActionResult Register()
         {
             return View();
         }
 
-        // 🔹 Handle Register Logic
+        // ✅ Handle Registration
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+            var existingUser = await _userRepository.GetUserByEmailAsync(model.Email);
             if (existingUser != null)
             {
                 ModelState.AddModelError("", "User already exists!");
@@ -40,49 +38,44 @@ namespace BlogApp.Controllers
             {
                 Name = model.Name,
                 Email = model.Email,
+                Password = model.Password, // This will be hashed inside the repository
                 RoleId = model.RoleId
             };
 
-            user.SetPassword(model.Password); 
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
+            await _userRepository.AddUserAsync(user);
             return RedirectToAction("Login");
         }
 
-        // 🔹 Show Login Form
+        // ✅ Show Login Form
         public IActionResult Login()
         {
             return View();
         }
 
-        // 🔹 Handle Login Logic
+        // ✅ Handle Login
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
-            if (user == null || !user.VerifyPassword(model.Password)) // 🔹 Verify password
+            bool isValidUser = await _userRepository.VerifyUserCredentialsAsync(model.Email, model.Password);
+            if (!isValidUser)
             {
                 ModelState.AddModelError("", "Invalid email or password");
                 return View(model);
             }
 
-            // Store user session (Example)
-            HttpContext.Session.SetString("UserId", user.Id.ToString());
-            HttpContext.Session.SetString("UserName", user.Name);
+            // Store session (optional)
+            HttpContext.Session.SetString("UserEmail", model.Email);
 
-            return RedirectToAction("Index", "Home"); // Redirect to home after login
+            return RedirectToAction("Index", "Home");
         }
 
-
-        // 🔹 Logout
+        // ✅ Logout
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear(); // Clear session
+            HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
     }

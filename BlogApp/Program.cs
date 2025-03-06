@@ -1,5 +1,7 @@
 ﻿using BlogApp.Data;
+using BlogApp.Repositories;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace BlogApp
 {
@@ -14,6 +16,8 @@ namespace BlogApp
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
             builder.Services.AddSession(options =>
             {
