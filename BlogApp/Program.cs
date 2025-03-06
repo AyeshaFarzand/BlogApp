@@ -3,6 +3,7 @@ using BlogApp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 
+
 namespace BlogApp
 {
     public class Program
@@ -17,6 +18,11 @@ namespace BlogApp
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+           
+        
+
+
+
 
 
             builder.Services.AddSession(options =>
@@ -31,6 +37,9 @@ namespace BlogApp
 
 
             var app = builder.Build();
+            
+            app.UseSession();
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -42,6 +51,8 @@ namespace BlogApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            builder.Services.AddSession();
+            builder.Services.AddDistributedMemoryCache();
             app.UseSession();
 
             app.UseRouting();

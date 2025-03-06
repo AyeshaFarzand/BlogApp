@@ -1,7 +1,7 @@
-﻿using BlogApp.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using BlogApp.Models;
 using BlogApp.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace BlogApp.Controllers
 {
@@ -14,7 +14,44 @@ namespace BlogApp.Controllers
             _userRepository = userRepository;
         }
 
-        // ✅ Show Registration Form
+        // ✅ Show Login Page
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        // ✅ Handle Login
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _userRepository.GetUserByEmailAsync(model.Email);
+
+            if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
+            {
+                ModelState.AddModelError("", "Invalid email or password");
+                return View(model);
+            }
+
+            // ✅ Store user details in session
+            HttpContext.Session.SetString("UserId", user.Id.ToString());
+            HttpContext.Session.SetString("UserRole", user.Role.RoleName);
+
+            // ✅ Redirect based on user role
+            if (user.Role.RoleName == "Admin")
+            {
+                return RedirectToAction("Index", "AdminHome");
+            }
+            else if(user.Role.RoleName == "User")
+            {
+                return RedirectToAction("Index", "UserHome");
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        // ✅ Show Register Page
         public IActionResult Register()
         {
             return View();
@@ -38,38 +75,13 @@ namespace BlogApp.Controllers
             {
                 Name = model.Name,
                 Email = model.Email,
-                Password = model.Password, // This will be hashed inside the repository
-                RoleId = model.RoleId
+                RoleId = model.RoleId,
+                Password = model.Password
             };
 
-            await _userRepository.AddUserAsync(user);
+            await  _userRepository.AddUserAsync(user);
+
             return RedirectToAction("Login");
-        }
-
-        // ✅ Show Login Form
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        // ✅ Handle Login
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            bool isValidUser = await _userRepository.VerifyUserCredentialsAsync(model.Email, model.Password);
-            if (!isValidUser)
-            {
-                ModelState.AddModelError("", "Invalid email or password");
-                return View(model);
-            }
-
-            // Store session (optional)
-            HttpContext.Session.SetString("UserEmail", model.Email);
-
-            return RedirectToAction("Index", "Home");
         }
 
         // ✅ Logout
