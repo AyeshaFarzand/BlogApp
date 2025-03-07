@@ -34,7 +34,7 @@ namespace BlogApp
 
             // ✅ Add distributed memory cache (required for session)
             builder.Services.AddDistributedMemoryCache();
-
+            builder.Services.AddScoped<IPostRepository, PostRepository>();
 
             var app = builder.Build();
             

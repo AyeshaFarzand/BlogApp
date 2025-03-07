@@ -1,0 +1,36 @@
+﻿@model IEnumerable<BlogApp.Models.Post>
+
+@{
+    ViewData["Title"] = "All Posts";
+}
+
+<h2>All Posts</h2>
+<a asp-action="Create" class="btn btn-primary mb-3">Create New Post</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Photo</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var post in Model)
+            {
+                <div>
+                    <h3>@post.Title</h3>
+                    <p>@post.Content</p>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No posts available.</p>
+        }
+
+    </tbody>
+</table>

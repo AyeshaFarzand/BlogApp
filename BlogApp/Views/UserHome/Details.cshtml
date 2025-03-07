@@ -1,0 +1,20 @@
+﻿@model BlogApp.Models.Post
+
+@{
+    ViewData["Title"] = "Post Details";
+}
+
+<h2>@Model.Title</h2>
+
+@if (!string.IsNullOrEmpty(Model.PhotoPath))
+{
+    <img src="~/uploads/@Model.PhotoPath" width="400" alt="Post Image" class="img-fluid mb-3" />
+}
+
+<p>@Html.Raw(Model.Content)</p>
+
+<p><strong>Status:</strong> @Model.Status</p>
+<p><strong>Created At:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
