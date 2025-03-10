@@ -21,13 +21,6 @@ namespace BlogApp
             builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
-
-
-
-
-
-
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
@@ -75,7 +68,7 @@ namespace BlogApp
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Auth}/{action=Register}/{id?}");
+                pattern: "{controller=Auth}/{action=Login}/{id?}");
 
             app.Run();
         }
