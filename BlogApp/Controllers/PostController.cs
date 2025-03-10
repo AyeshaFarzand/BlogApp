@@ -131,5 +131,8 @@ namespace BlogApp.Controllers
             await _postRepository.UpdatePostStatusAsync(id, status);
             return RedirectToAction("Index");
         }
+        
+
+
     }
 }

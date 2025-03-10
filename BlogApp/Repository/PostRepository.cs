@@ -1,5 +1,6 @@
 ﻿using BlogApp.Data;
 using BlogApp.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -62,6 +63,31 @@ namespace BlogApp.Repositories
                 _context.Posts.Update(post);
                 await _context.SaveChangesAsync();
             }
+
+
+           
         }
+        public class PostController : Controller
+        {
+            private readonly AppDbContext _context;
+
+            public PostController(AppDbContext context)
+            {
+                _context = context;
+            }
+
+            // ✅ Show a Post
+            public async Task<IActionResult> Show(int id)
+            {
+                var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
+                if (post == null)
+                    return NotFound();
+
+                return View(post); // This looks for Views/Post/Show.cshtml
+            }
+        }
+
+
+
     }
 }

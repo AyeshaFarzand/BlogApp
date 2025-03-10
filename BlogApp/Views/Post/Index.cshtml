@@ -23,7 +23,11 @@
                     <div class="card shadow-sm border-0">
                         <div class="card-body">
                             <h4 class="card-title text-dark">@post.Title</h4>
-                            <a asp-action="Show" asp-route-id="@post.Id" class="btn btn-outline-primary btn-sm mt-2">View Post</a>
+                            <p class="card-text text-muted">
+                                @post.Content?.Substring(0, Math.Min(100, post.Content.Length))...
+                            </p>
+
+                            <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-outline-primary btn-sm">View Post</a>
                         </div>
                     </div>
                 </div>
