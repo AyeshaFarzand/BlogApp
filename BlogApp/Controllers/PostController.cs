@@ -6,13 +6,15 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
+
 namespace BlogApp.Controllers
 {
     public class PostController : Controller
     {
+        private readonly DbContext _context;
         private readonly IPostRepository _postRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private object _context;
+        private object _contextt;
 
         public PostController(IPostRepository postRepository, IWebHostEnvironment webHostEnvironment)
         {
@@ -21,6 +23,8 @@ namespace BlogApp.Controllers
         }
 
         public async Task<IActionResult> Index()
+
+
         {
             var posts = await _postRepository.GetAllPostsAsync();
             return View(posts);
@@ -39,8 +43,15 @@ namespace BlogApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Post post, IFormFile PhotoFile)
+        public async Task<IActionResult> Create(Post post, IFormFile? PhotoFile)
         {
+            int? userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
             if (!ModelState.IsValid)
                 return View(post);
 
@@ -60,12 +71,14 @@ namespace BlogApp.Controllers
                 post.PhotoPath = uniqueFileName;
             }
 
+           
+            post.UserId = userId.Value;
             post.CreatedAt = DateTime.UtcNow;
-            post.Status = PostStatus.Pending;
-
             await _postRepository.AddPostAsync(post);
+
             return RedirectToAction("Index");
         }
+
 
         public async Task<IActionResult> Edit(int id)
         {

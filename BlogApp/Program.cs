@@ -39,6 +39,17 @@ namespace BlogApp
             var app = builder.Build();
             
             app.UseSession();
+            
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage(); // ✅ Shows detailed errors in development mode
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error"); // Custom error page for production
+                app.UseHsts();
+            }
 
 
             // Configure the HTTP request pipeline.

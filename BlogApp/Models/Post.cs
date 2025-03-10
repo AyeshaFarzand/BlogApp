@@ -19,16 +19,13 @@ namespace BlogApp.Models
 
         // ✅ Store Image Path
         public string? PhotoPath { get; set; }
-
-        // ✅ Foreign Key for User
-        public int UserId { get; set; }
-
-        [ForeignKey("UserId")]
-        public User User { get; set; }
-
         // ✅ Post Status (Pending, Approved, Rejected)
         [Required]
         public PostStatus Status { get; set; } = PostStatus.Pending;
+        public int UserId { get; set; }
+        // ✅ Foreign Key for User
+        [ForeignKey("UserId")]
+        public User? User { get; set; }
     }
 
     // Enum for Post Status

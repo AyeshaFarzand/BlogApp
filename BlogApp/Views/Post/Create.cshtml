@@ -1,4 +1,5 @@
 ﻿@model BlogApp.Models.Post
+@using Microsoft.AspNetCore.Http
 
 @{
     ViewData["Title"] = "Create Post";
@@ -12,6 +13,8 @@
         <input asp-for="Title" class="form-control" required />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
+
+    <input type="hidden" asp-for="UserId" value="@Context.Session.GetInt32("UserId")" />
 
     <div class="form-group">
         <label asp-for="Content"></label>
@@ -35,4 +38,6 @@
 
     <button type="submit" class="btn btn-success mt-3">Create</button>
     <a asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
 </form>

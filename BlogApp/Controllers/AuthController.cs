@@ -36,7 +36,7 @@ namespace BlogApp.Controllers
             }
 
             // ✅ Store user details in session
-            HttpContext.Session.SetString("UserId", user.Id.ToString());
+            HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("UserRole", user.Role.RoleName);
 
             // ✅ Redirect based on user role
@@ -50,13 +50,25 @@ namespace BlogApp.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+        /*[HttpPost]
+        public IActionResult Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model); // Returns the same view with validation errors
+            }
+
+            // ✅ Registration logic here
+            return RedirectToAction("Login");
+        } */
+
 
         // ✅ Show Register Page
         public IActionResult Register()
         {
             return View();
         }
-
+        
         // ✅ Handle Registration
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)

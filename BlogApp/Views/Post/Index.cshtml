@@ -4,33 +4,34 @@
     ViewData["Title"] = "All Posts";
 }
 
-<h2>All Posts</h2>
-<a asp-action="Create" class="btn btn-primary mb-3">Create New Post</a>
+<div class="container mt-4">
+    <!-- Top Button -->
+    <div class="d-flex justify-content-end mb-3">
+        <a asp-action="Create" class="btn btn-success">+ Create New Post</a>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Photo</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null && Model.Any())
-        {
+    <!-- Page Title -->
+    <h2 class="mb-4 text-primary">All Posts</h2>
+
+    <!-- Posts Listing -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
             @foreach (var post in Model)
             {
-                <div>
-                    <h3>@post.Title</h3>
-                    <p>@post.Content</p>
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body">
+                            <h4 class="card-title text-dark">@post.Title</h4>
+                            <a asp-action="Show" asp-route-id="@post.Id" class="btn btn-outline-primary btn-sm mt-2">View Post</a>
+                        </div>
+                    </div>
                 </div>
             }
-        }
-        else
-        {
-            <p>No posts available.</p>
-        }
-
-    </tbody>
-</table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">No posts available.</div>
+    }
+</div>
