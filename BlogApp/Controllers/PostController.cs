@@ -1,5 +1,6 @@
 ﻿using BlogApp.Models;
 using BlogApp.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -118,7 +119,19 @@ namespace BlogApp.Controllers
             await _postRepository.UpdatePostAsync(post);
             return RedirectToAction("Index");
         }
+       /* [Authorize]
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
 
+        // Role based access
+        [Authorize(Roles = "Admin")]
+        public IActionResult ManageUsers()
+        {
+            return View();
+        }
+       */
         public async Task<IActionResult> Delete(int id)
         {
             await _postRepository.DeletePostAsync(id);

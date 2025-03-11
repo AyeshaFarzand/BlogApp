@@ -21,17 +21,28 @@ namespace BlogApp
             builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddSession(options =>
+            /* builder.Services.AddSession(options =>
+             {
+                 options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+                 options.Cookie.HttpOnly = true;
+                 options.Cookie.IsEssential = true;
+             });*/
+
+
+            builder.Services.AddAuthentication("MyCookieAuth")
+            .AddCookie("MyCookieAuth", options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
+                options.LoginPath = "/Auth/Login";
+                options.AccessDeniedPath = "/Auth/AccessDenied";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
             });
 
+            builder.Services.AddAuthorization();
             // ✅ Add distributed memory cache (required for session)
-            builder.Services.AddDistributedMemoryCache();
+            // builder.Services.AddDistributedMemoryCache();
             builder.Services.AddScoped<IPostRepository, PostRepository>();
-
+            builder.Services.AddSession();
+            builder.Services.AddDistributedMemoryCache();
             var app = builder.Build();
             
             app.UseSession();
@@ -58,14 +69,12 @@ namespace BlogApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            builder.Services.AddSession();
-            builder.Services.AddDistributedMemoryCache();
             app.UseSession();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Auth}/{action=Login}/{id?}");

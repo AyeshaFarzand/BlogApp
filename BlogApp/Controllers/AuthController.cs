@@ -2,6 +2,9 @@
 using BlogApp.Models;
 using BlogApp.Repositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace BlogApp.Controllers
 {
@@ -35,9 +38,18 @@ namespace BlogApp.Controllers
                 return View(model);
             }
 
-            // ✅ Store user details in session
-            HttpContext.Session.SetInt32("UserId", user.Id);
-            HttpContext.Session.SetString("UserRole", user.Role.RoleName);
+
+            var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.Name),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Role, user.Role.RoleName)
+        };
+            var identity = new ClaimsIdentity(claims, "MyCookieAuth");
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync("MyCookieAuth", principal);
 
             // ✅ Redirect based on user role
             if (user.Role.RoleName == "Admin")
@@ -97,10 +109,22 @@ namespace BlogApp.Controllers
         }
 
         // ✅ Logout
-        public IActionResult Logout()
+
+       // public IActionResult Logout()
+      //  {
+      //      HttpContext.Session.Clear();
+       //     return RedirectToAction("Login");
+      //  }
+        public async Task<IActionResult> Logout()
         {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login");
+            await HttpContext.SignOutAsync("MyCookieAuth");
+            return RedirectToAction("Login", "Auth");
         }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
     }
 }
