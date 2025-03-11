@@ -39,7 +39,7 @@ namespace BlogApp.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            return View(new Post());
         }
 
         [HttpPost]

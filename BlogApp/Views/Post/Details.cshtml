@@ -11,7 +11,15 @@
     <img src="~/uploads/@Model.PhotoPath" width="400" alt="Post Image" class="img-fluid mb-3" />
 }
 
-<p>@Html.Raw(Model.Content)</p>
+<p>@Html.Raw(Model.Content)</p><!-- Views/Post/Details.cshtml -->
+
+
+<h2>@Model.Title</h2>
+<div>
+    @Html.Raw(Model.Content) <!-- ✅ Important to render HTML properly -->
+</div>
+
+
 
 <p><strong>Status:</strong> @Model.Status</p>
 <p><strong>Created At:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
