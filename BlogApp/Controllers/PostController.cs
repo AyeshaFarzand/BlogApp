@@ -24,8 +24,6 @@ namespace BlogApp.Controllers
         }
 
         public async Task<IActionResult> Index()
-
-
         {
             var posts = await _postRepository.GetAllPostsAsync();
             return View(posts);
@@ -37,7 +35,7 @@ namespace BlogApp.Controllers
             if (post == null) return NotFound();
             return View(post);
         }
-
+        [Authorize(Roles = "User")]
         public IActionResult Create()
         {
             return View(new Post());
@@ -80,7 +78,7 @@ namespace BlogApp.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> Edit(int id)
         {
             var post = await _postRepository.GetPostByIdAsync(id);

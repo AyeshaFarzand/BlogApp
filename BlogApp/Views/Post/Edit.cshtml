@@ -2,6 +2,22 @@
 
 @{
     ViewData["Title"] = "Edit Post";
+    if (User.Identity.IsAuthenticated)
+    {
+        // If you have roles stored in claims (like "Admin")
+        if (User.IsInRole("Admin"))
+        {
+            Layout = "~/Views/Shared/AdminLayout.cshtml";
+        }
+        else if (User.IsInRole("User"))
+        {
+            Layout = "~/Views/Shared/UserLayout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml"; // for non-logged-in visitors
+    }
 }
 
 <h2>Edit Post</h2>
