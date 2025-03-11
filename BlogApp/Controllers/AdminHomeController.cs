@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Controllers
 {
@@ -8,5 +9,6 @@ namespace BlogApp.Controllers
         {
             return View();
         }
+        
     }
 }
