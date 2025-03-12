@@ -18,6 +18,7 @@
     {
         Layout = "~/Views/Shared/_Layout.cshtml"; // for non-logged-in visitors
     }
+   
 }
 
 <div class="container mt-4">
@@ -44,6 +45,19 @@
                             </p>
 
                             <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-outline-primary btn-sm">View Post</a>
+
+                            @if (post.Status == PostStatus.Pending && User.IsInRole("Admin"))
+                            {
+                                <form asp-action="Approve" asp-controller="Post" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@post.Id" />
+                                    <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                </form>
+
+                                <form asp-action="Reject" asp-controller="Post" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@post.Id" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                </form>
+                            }
                         </div>
                     </div>
                 </div>
@@ -54,5 +68,7 @@
     {
         <div class="alert alert-warning">No posts available.</div>
     }
+
+
 </div>
 

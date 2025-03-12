@@ -1,4 +1,5 @@
 ﻿using BlogApp.Models;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,6 +14,9 @@ namespace BlogApp.Repositories
         Task DeletePostAsync(int id);
         Task UpdatePostStatusAsync(int id, PostStatus status);
         Task ReportPostAsync(Report report);
+        Task ApprovePostAsync(int postId);
+        Task RejectPostAsync(int postId);
+
 
     }
 }

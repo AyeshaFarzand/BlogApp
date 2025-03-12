@@ -14,6 +14,7 @@ namespace BlogApp.Controllers
     public class PostController : Controller
     {
         private readonly IPostRepository _postRepository;
+
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILikesRepository _likesRepository;
 
@@ -173,6 +174,21 @@ namespace BlogApp.Controllers
         }
 
 
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Approve(int id)
+        {
+            await _postRepository.ApprovePostAsync(id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Reject(int id)
+        {
+            await _postRepository.RejectPostAsync(id);
+            return RedirectToAction("Index");
+        }
 
 
 

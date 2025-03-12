@@ -77,6 +77,28 @@ namespace BlogApp.Repositories
             await _context.SaveChangesAsync();
         }
 
-       
+        public async Task ApprovePostAsync(int postId)
+        {
+            var post = await _context.Posts.FindAsync(postId);
+            if (post != null)
+            {
+                post.Status = PostStatus.Approved;
+                _context.Posts.Update(post);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task RejectPostAsync(int postId)
+        {
+            var post = await _context.Posts.FindAsync(postId);
+            if (post != null)
+            {
+                post.Status = PostStatus.Rejected;
+                _context.Posts.Update(post);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+
     }
 }
