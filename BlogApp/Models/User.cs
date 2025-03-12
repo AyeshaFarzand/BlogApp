@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using BCrypt.Net;
 
-
 namespace BlogApp.Models
 {
     public class User
@@ -30,7 +29,12 @@ namespace BlogApp.Models
         public int RoleId { get; set; }
 
         public UserRole Role { get; set; }
-       
+
+        internal static object FindFirst(string nameIdentifier)
+        {
+            throw new NotImplementedException();
+        }
+
         // Method to hash password
         public void SetPassword(string password)
         {

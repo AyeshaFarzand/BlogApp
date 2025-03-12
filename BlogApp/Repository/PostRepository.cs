@@ -25,7 +25,10 @@ namespace BlogApp.Repositories
         // ✅ Get a single post by ID
         public async Task<Post> GetPostByIdAsync(int id)
         {
-            return await _context.Posts.Include(p => p.User).FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Posts
+                .Include(p => p.User)
+                .Include(p => p.Likes)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         // ✅ Add a new post
@@ -67,27 +70,13 @@ namespace BlogApp.Repositories
 
            
         }
-        public class PostController : Controller
+
+        public async Task ReportPostAsync(Report report)
         {
-            private readonly AppDbContext _context;
-
-            public PostController(AppDbContext context)
-            {
-                _context = context;
-            }
-
-            // ✅ Show a Post
-            public async Task<IActionResult> Show(int id)
-            {
-                var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
-                if (post == null)
-                    return NotFound();
-
-                return View(post); // This looks for Views/Post/Show.cshtml
-            }
+            _context.Reports.Add(report);
+            await _context.SaveChangesAsync();
         }
 
-
-
+       
     }
 }

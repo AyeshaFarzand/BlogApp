@@ -12,5 +12,7 @@ namespace BlogApp.Repositories
         Task UpdatePostAsync(Post post);
         Task DeletePostAsync(int id);
         Task UpdatePostStatusAsync(int id, PostStatus status);
+        Task ReportPostAsync(Report report);
+
     }
 }

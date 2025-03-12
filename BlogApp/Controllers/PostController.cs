@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 
@@ -12,15 +13,15 @@ namespace BlogApp.Controllers
 {
     public class PostController : Controller
     {
-        private readonly DbContext _context;
         private readonly IPostRepository _postRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private object _contextt;
+        private readonly ILikesRepository _likesRepository;
 
-        public PostController(IPostRepository postRepository, IWebHostEnvironment webHostEnvironment)
+        public PostController(IPostRepository postRepository, IWebHostEnvironment webHostEnvironment, ILikesRepository likeRepository)
         {
             _postRepository = postRepository;
             _webHostEnvironment = webHostEnvironment;
+            _likesRepository = likeRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -142,7 +143,42 @@ namespace BlogApp.Controllers
             await _postRepository.UpdatePostStatusAsync(id, status);
             return RedirectToAction("Index");
         }
-        
+
+        [HttpPost]
+        public async Task<IActionResult> Like(int postId)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            //Check if this user has already liked this post
+            // Hint: Need to use HasUserLikedAsync function from like repository
+       
+             if(await _likesRepository.HasUserLikedAsync(postId, userId))
+            {
+                // No Action
+            }
+            //If user has not liked this post hen call AddLikeAsync to add a like in database.
+            else
+            {
+                await _likesRepository.AddLikeAsync(postId, userId);
+            }
+
+            return RedirectToAction("Details", new { id = postId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReportPost(Report report)
+        {
+            report.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            await _postRepository.ReportPostAsync(report);
+            return RedirectToAction("Details", new { id = report.PostId });
+        }
+
+
+
+
+
+
+
+
 
 
     }

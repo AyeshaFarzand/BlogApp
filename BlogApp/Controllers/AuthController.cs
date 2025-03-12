@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Controllers
 {
     public class AuthController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private object _context;
 
         public AuthController(IUserRepository userRepository)
         {
@@ -126,6 +128,9 @@ namespace BlogApp.Controllers
         {
             return View();
         }
+
+     
+
 
     }
 }
