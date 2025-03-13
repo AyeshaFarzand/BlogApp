@@ -4,6 +4,7 @@ using BlogApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250313181437_AddedReferenceOfPOSTFromCommentLikeTable")]
+    partial class AddedReferenceOfPOSTFromCommentLikeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,12 +155,17 @@ namespace BlogApp.Migrations
                     b.Property<int>("CommentId")
                         .HasColumnType("int");
 
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CommentId");
+
+                    b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
 
@@ -270,6 +277,12 @@ namespace BlogApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BlogApp.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BlogApp.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -277,6 +290,8 @@ namespace BlogApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Comment");
+
+                    b.Navigation("Post");
 
                     b.Navigation("User");
                 });

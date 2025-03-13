@@ -17,6 +17,8 @@ namespace BlogApp.Controllers
 
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILikesRepository _likesRepository;
+        private readonly ICommentRepository _repository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public PostController(IPostRepository postRepository, IWebHostEnvironment webHostEnvironment, ILikesRepository likeRepository)
         {
@@ -190,8 +192,11 @@ namespace BlogApp.Controllers
             return RedirectToAction("Index");
         }
 
+      
+             
+            
 
-
+          
 
 
 

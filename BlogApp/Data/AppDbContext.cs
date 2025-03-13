@@ -13,7 +13,12 @@ namespace BlogApp.Data
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Report> Reports { get; set; }
-
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<CommentLike> CommentLikes { get; set; }
         
+
+
+
+
     }
 }

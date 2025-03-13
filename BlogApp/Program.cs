@@ -1,5 +1,6 @@
 ﻿using BlogApp.Data;
 using BlogApp.Repositories;
+using BlogApp.Repository;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -19,6 +20,8 @@ namespace BlogApp
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ILikesRepository, LikesRepository>();
+            builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+
             builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

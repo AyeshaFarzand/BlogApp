@@ -28,6 +28,8 @@ namespace BlogApp.Repositories
             return await _context.Posts
                 .Include(p => p.User)
                 .Include(p => p.Likes)
+                .Include(p => p.Comments)
+                .ThenInclude(p => p.Likes)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
