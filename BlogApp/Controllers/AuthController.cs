@@ -99,8 +99,9 @@ namespace BlogApp.Controllers
         {
             return View();
         }
-
-        // ✅ Handle Registration
+        
+        //  Handle Registration
+       
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -113,9 +114,7 @@ namespace BlogApp.Controllers
                 ModelState.AddModelError("", "User already exists!");
                 return View(model);
             }
-
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
-
             var user = new User
             {
                 Name = model.Name,

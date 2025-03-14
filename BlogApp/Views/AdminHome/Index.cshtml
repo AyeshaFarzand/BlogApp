@@ -1,6 +1,125 @@
 ﻿@{
     Layout = "~/Views/Shared/AdminLayout.cshtml";
-   
+
 }
-<h2>Welcome Admin</h2>
-<p>This is the admin dashboard.</p>
+@*<h2>Welcome Admin</h2>
+<p>This is the admin dashboard.</p>*@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h2 class="text-primary fw-bold">Welcome Admin</h2>
+        <p class="text-muted">Here's a quick overview of the platform's activities.</p>
+    </div>
+
+    <!-- Admin Stats Cards -->
+    <div class="row text-white mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">Total Posts</h6>
+                    <h3 class="card-text">120</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">Approved Posts</h6>
+                    <h3 class="card-text">95</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">Pending Approvals</h6>
+                    <h3 class="card-text">25</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">Reported Posts</h6>
+                    <h3 class="card-text">8</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity Tables -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-dark text-white">
+                    Recent Posts
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-striped mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Title</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Introduction to .NET Core</td>
+                                <td>06 Mar 2025</td>
+                            </tr>
+                            <tr>
+                                <td>Best Practices in Web Security</td>
+                                <td>05 Mar 2025</td>
+                            </tr>
+                            <tr>
+                                <td>Advanced React Components</td>
+                                <td>04 Mar 2025</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-dark text-white">
+                    Recent Comments
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-striped mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>User</th>
+                                <th>Comment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ali Raza</td>
+                                <td>Great article!</td>
+                            </tr>
+                            <tr>
+                                <td>Sarah Khan</td>
+                                <td>Very helpful content.</td>
+                            </tr>
+                            <tr>
+                                <td>Ahmed Ali</td>
+                                <td>Thank you for sharing!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Actions -->
+    <div class="text-center mt-4">
+        <a class="btn btn-outline-success btn-lg me-2" href="/Post/Approval"> Manage Approvals</a>
+        <a class="btn btn-outline-danger btn-lg" href="/Report/Manage"> View Reports</a>
+    </div>
+</div>

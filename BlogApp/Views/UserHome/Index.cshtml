@@ -1,8 +1,91 @@
 ﻿
-
 @{
     ViewData["Title"] = "User Home";
     Layout = "~/Views/Shared/UserLayout.cshtml";
 }
 
-<h2>Welcome User</h2>
+@*<h2>Welcome User</h2>*@
+
+@{
+    ViewData["Title"] = "User Home";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h2 class="text-primary fw-bold">Welcome Back, User!</h2>
+        <p class="text-muted">Here's what's happening in your blogging world today.</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row text-white mb-4">
+        <div class="col-md-4">
+            <div class="card bg-info shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Your Posts</h5>
+                    <h3 class="card-text">12</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Comments</h5>
+                    <h3 class="card-text">34</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Likes</h5>
+                    <h3 class="card-text">87</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Posts Section -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            Your Recent Posts
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    How to Improve Productivity
+                    <span class="badge bg-secondary">05 Mar 2025</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Benefits of Remote Work
+                    <span class="badge bg-secondary">02 Mar 2025</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Learning ASP.NET Core
+                    <span class="badge bg-secondary">28 Feb 2025</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Suggested Posts Section -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-dark text-white">
+            Suggested Reads
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item">Mastering C# in 30 Days</li>
+                <li class="list-group-item">Top 10 Web Dev Tools in 2025</li>
+                <li class="list-group-item">Understanding Cookies-Based Auth</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- User Actions -->
+    <div class="text-center mt-4">
+        <a class="btn btn-outline-primary btn-lg me-2" href="/Post/Create">✍️ Write New Post</a>
+
+    </div>
+</div>
+
+

@@ -26,7 +26,6 @@ namespace BlogApp.Repositories
         // ✅ Add a new user (Hashing the password before saving)
         public async Task AddUserAsync(User user)
         {
-            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
         }
