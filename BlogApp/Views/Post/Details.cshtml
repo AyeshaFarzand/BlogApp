@@ -32,9 +32,14 @@
 
 <p><strong>Status:</strong> @Model.Status</p>
 <p><strong>Created At:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
-
 <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+
+@if (Model.UserId == Convert.ToInt32(ViewData["UserId"]))
+{
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+}
+
+
 <!-- Trigger button -->
 @if (User.IsInRole("User")){
 <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">Report</button>

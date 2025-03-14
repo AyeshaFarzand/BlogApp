@@ -36,6 +36,8 @@ namespace BlogApp.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var post = await _postRepository.GetPostByIdAsync(id);
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+            ViewData["UserId"] = userId;
             if (post == null) return NotFound();
             return View(post);
         }
@@ -74,7 +76,6 @@ namespace BlogApp.Controllers
                 post.PhotoPath = uniqueFileName;
             }
 
-           
             post.UserId = userId.Value;
             post.CreatedAt = DateTime.UtcNow;
             await _postRepository.AddPostAsync(post);
@@ -87,10 +88,17 @@ namespace BlogApp.Controllers
         {
             var post = await _postRepository.GetPostByIdAsync(id);
             if (post == null) return NotFound();
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (post.UserId != userId)
+                return Forbid();
             return View(post);
+           
+
+           
         }
        
-
+       
 
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Post updatedPost, IFormFile PhotoFile)
@@ -99,6 +107,8 @@ namespace BlogApp.Controllers
 
             var post = await _postRepository.GetPostByIdAsync(id);
             if (post == null) return NotFound();
+
+
 
             post.Title = updatedPost.Title;
             post.Content = updatedPost.Content;
@@ -192,11 +202,11 @@ namespace BlogApp.Controllers
             return RedirectToAction("Index");
         }
 
-      
-             
-            
 
-          
+       
+
+
+
 
 
 
