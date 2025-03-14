@@ -47,5 +47,8 @@ namespace BlogApp.Models
         {
             return BCrypt.Net.BCrypt.Verify(password, Password);
         }
+
+        public int FailedLoginAttempts { get; set; } = 0;
+        public DateTime? LockoutEndTime { get; set; }
     }
 }
