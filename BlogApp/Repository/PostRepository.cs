@@ -101,6 +101,19 @@ namespace BlogApp.Repositories
             }
         }
 
+        public async Task<int> GetTotalPostsCountAsync()
+        {
+            return await _context.Posts.CountAsync();
+        }
 
+        public async Task<int> GetTotalPostLikesCountAsync()
+        {
+            return await _context.Likes.CountAsync();
+        }
+
+        public async Task<int> GetTotalPostCommentsCountAsync()
+        {
+            return await _context.Comments.CountAsync();
+        }
     }
 }

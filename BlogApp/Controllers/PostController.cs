@@ -146,6 +146,19 @@ namespace BlogApp.Controllers
        */
         public async Task<IActionResult> Delete(int id)
         {
+            var post = await _postRepository.GetPostByIdAsync(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            var loggedInUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            // Don't allow deletion if current user didn't create this post
+            if (post.UserId != loggedInUserId)
+            {
+                return Forbid(); // Or RedirectToAction("AccessDenied")
+            }
             await _postRepository.DeletePostAsync(id);
             return RedirectToAction("Index");
         }

@@ -39,7 +39,14 @@
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
 }
 
-
+   
+@if (Model.UserId == Convert.ToInt32(ViewData["UserId"]))
+            {
+                <form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            }
+    
 <!-- Trigger button -->
 @if (User.IsInRole("User")){
 <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">Report</button>

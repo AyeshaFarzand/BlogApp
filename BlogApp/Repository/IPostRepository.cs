@@ -17,6 +17,16 @@ namespace BlogApp.Repositories
         Task ApprovePostAsync(int postId);
         Task RejectPostAsync(int postId);
 
+        //  Task DeletePostAsync(int post);
+
+        Task<int> GetTotalPostsCountAsync();
+
+        Task<int> GetTotalPostLikesCountAsync();
+
+        Task<int> GetTotalPostCommentsCountAsync();
+
+        
+
 
     }
 }
