@@ -44,6 +44,19 @@ namespace BlogApp.Repositories
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
         }
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            return await _context.Users.Include(u => u.Role).ToListAsync();
+        }
 
+        public async Task DeleteUserAsync(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

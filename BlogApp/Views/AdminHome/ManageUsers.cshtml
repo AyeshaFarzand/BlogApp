@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "Manage Users";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Manage Users</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count == 0)
+        {
+            <tr>
+                <td colspan="5" class="text-center">No users found.</td>
+            </tr>
+        }
+        else
+        {
+            int sn = 1;
+            foreach (var user in Model)
+            {
+                <tr>
+                    <td>@sn</td>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td>@user.RoleName</td>
+                    <td>
+                        <form asp-action="DeleteUser" method="post" onsubmit="return confirm('Are you sure to delete this user?');">
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                sn++;
+            }
+        }
+    </tbody>
+</table>

@@ -137,6 +137,8 @@ namespace BlogApp.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
+     
+
         // ✅ Access Denied Page
         public IActionResult AccessDenied()
         {

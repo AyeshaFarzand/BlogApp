@@ -9,6 +9,7 @@ namespace BlogApp.Repositories
         Task AddUserAsync(User user);
         Task<bool> VerifyUserCredentialsAsync(string email, string password);
         Task UpdateUserAsync(User user);
-
+        Task<List<User>> GetAllUsersAsync();
+        Task DeleteUserAsync(int id);
     }
 }
