@@ -8,8 +8,6 @@
 
 <h2>Create Post</h2>
 
-
-
 <form asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="Title"></label>
@@ -17,10 +15,11 @@
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
 
-    <input type="hidden" asp-for="UserId" value="@Context.Session.GetInt32("UserId")" />
+
+
     <div class="form-group">
         <label asp-for="Content"></label>
-        <textarea asp-for="Content" class="ck-editor__editable_inline form-control" id="Content" rows="200"></textarea>
+        <textarea asp-for="Content" class="form-control" id="Content"></textarea>
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
 
@@ -29,27 +28,27 @@
         <input type="file" name="PhotoFile" class="form-control" />
     </div>
 
-    <input type="hidden" asp-for="Status" value="Pending" />
+    @* No need to bind Likes or Comments from the form *@
+
+    <input type="hidden" name="Status" value="Pending" />
 
     <button type="submit" class="btn btn-success mt-3">Create</button>
     <a asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
 
     <div asp-validation-summary="All" class="text-danger"></div>
 </form>
+
 <style>
     .ck-editor__editable_inline {
         min-height: 300px;
     }
 </style>
+
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
 <script>
     ClassicEditor
         .create(document.querySelector('#Content'))
-       // .then(editor => {
-       //     editor.ui.view.editable.element.style.minHeight = '300px';
-      //  })
         .catch(error => {
             console.error(error);
         });
 </script>
-

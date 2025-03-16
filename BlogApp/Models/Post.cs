@@ -26,9 +26,9 @@ namespace BlogApp.Models
         // ✅ Foreign Key for User
         [ForeignKey("UserId")]
         public User? User { get; set; }
-        public ICollection<Like> Likes { get; set; }
+        public ICollection<Like>? Likes { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
     }
 
     // Enum for Post Status

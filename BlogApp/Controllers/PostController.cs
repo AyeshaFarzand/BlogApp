@@ -50,16 +50,17 @@ namespace BlogApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Post post, IFormFile? PhotoFile)
         {
-            int? userId = HttpContext.Session.GetInt32("UserId");
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             if (userId == null)
             {
                 return RedirectToAction("Login", "Auth");
             }
+            post.UserId = userId;
 
             if (!ModelState.IsValid)
                 return View(post);
-
+        
             if (PhotoFile != null)
             {
                 string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
@@ -76,7 +77,7 @@ namespace BlogApp.Controllers
                 post.PhotoPath = uniqueFileName;
             }
 
-            post.UserId = userId.Value;
+           
             post.CreatedAt = DateTime.UtcNow;
             await _postRepository.AddPostAsync(post);
 
